@@ -27,7 +27,8 @@ public class DijkstraWithPath {
     /**
      * Extended Dijkstra that tracks paths using a 'parent' array.
      */
-    public static void dijkstraWithPaths(int numVertices, List<List<Edge>> adjList, int source) {
+    public static void dijkstraWithPaths(int numVertices, List<List<Edge>> adjList,
+    		int source) {
         int[] distances = new int[numVertices];
         Arrays.fill(distances, Integer.MAX_VALUE);
         distances[source] = 0;
