@@ -39,6 +39,9 @@ public class LockerStation {
     // LinkedHashMap keeps deposit order, which equals expiry order for a fixed TTL
     private final Map<String, Locker> lockersByCode = new LinkedHashMap<>();
 
+	/*
+	 * populate freeLockers
+	 */
     public LockerStation(Clock clock, List<Locker> lockers) {
         this.clock = Objects.requireNonNull(clock, "clock must not be null");
         Objects.requireNonNull(lockers, "lockers must not be null");
@@ -61,6 +64,17 @@ public class LockerStation {
         }
     }
 
+    /**
+     * takeFreeLocker
+     * reclaimExpired
+     * takeFreeLocker
+     * generateUniqueCode
+     * assign Reservation
+     * 
+     * @param parcel
+     * @return
+     * @throws NoAvailableLockerException
+     */
     public synchronized String depositPackage(Parcel parcel) throws NoAvailableLockerException {
         Objects.requireNonNull(parcel, "parcel must not be null");
         Instant now = clock.instant();
@@ -79,6 +93,19 @@ public class LockerStation {
         return code;
     }
 
+    /**
+     * lockersByCode.get
+     *  locker.getReservation()
+     *  check reservation.isExpired
+     *          lockersByCode.remove(code); 
+     *           // makes a second pickup fail cleanly
+        locker.release();
+           -> remove reservation
+        freeLockers.get(locker.getSize()).addLast(locker);
+        return reservation.getParcel();
+
+     *  
+     */
     public synchronized Parcel pickupPackage(String code)
             throws InvalidCodeException, ExpiredCodeException {
         if (code == null || code.isBlank()) {
@@ -106,6 +133,11 @@ public class LockerStation {
         return reclaimExpired(clock.instant());
     }
 
+    /**
+     * lockersByCode iterator is in descending order
+     * @param now
+     * @return
+     */
     private List<Parcel> reclaimExpired(Instant now) {
         List<Parcel> reclaimed = new ArrayList<>();
         Iterator<Map.Entry<String, Locker>> it = lockersByCode.entrySet().iterator();
@@ -124,6 +156,9 @@ public class LockerStation {
         return reclaimed;
     }
 
+	/*
+	 * remove from freeLockers
+	 */
     private Locker takeFreeLocker(Size requested) throws NoAvailableLockerException {
         Size[] sizes = Size.values();
         for (int i = requested.ordinal(); i < sizes.length; i++) {

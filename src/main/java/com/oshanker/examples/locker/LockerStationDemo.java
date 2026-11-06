@@ -8,7 +8,26 @@ import java.time.ZoneOffset;
 import java.util.ArrayList;
 import java.util.List;
 
+/** Controllable clock for tests: time only moves when advance() is called. */
+ class MutableClock extends Clock {
+    private Instant now;
+    private final ZoneId zone;
+
+    MutableClock(Instant start, ZoneId zone) {
+        this.now = start;
+        this.zone = zone;
+    }
+
+    void advance(Duration duration) { now = now.plus(duration); }
+
+    @Override public Instant instant() { return now; }
+    @Override public ZoneId getZone() { return zone; }
+    @Override public Clock withZone(ZoneId z) { return new MutableClock(now, z); }
+}
+
+
 public class LockerStationDemo {
+	
     private static int failures = 0;
 
     public static void main(String[] args) throws Exception {
@@ -130,7 +149,8 @@ public class LockerStationDemo {
 
     // ---- helpers ----
 
-    private static String lockerHolding(List<Locker> lockers, String code) {
+    private static String lockerHolding(List<Locker> lockers, 
+    		String code) {
         for (Locker locker : lockers) {
             boolean holdsCode = locker.getReservation()
                     .map(r -> r.getCode().equals(code))
@@ -163,20 +183,4 @@ public class LockerStationDemo {
         }
     }
 
-    /** Controllable clock for tests: time only moves when advance() is called. */
-    private static class MutableClock extends Clock {
-        private Instant now;
-        private final ZoneId zone;
-
-        MutableClock(Instant start, ZoneId zone) {
-            this.now = start;
-            this.zone = zone;
-        }
-
-        void advance(Duration duration) { now = now.plus(duration); }
-
-        @Override public Instant instant() { return now; }
-        @Override public ZoneId getZone() { return zone; }
-        @Override public Clock withZone(ZoneId z) { return new MutableClock(now, z); }
-    }
 }

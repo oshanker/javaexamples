@@ -18,6 +18,10 @@ public final class Locker {
 
     public boolean isFree() { return reservation == null; }
 
+    /**
+     * put reservation
+     * @param reservation
+     */
     public void assign(Reservation reservation) {
         Objects.requireNonNull(reservation, "reservation must not be null");
         if (!isFree()) {
@@ -26,6 +30,10 @@ public final class Locker {
         this.reservation = reservation;
     }
 
+    /**
+     * remove reservation
+     * @return
+     */
     public Reservation release() {
         if (isFree()) {
             throw new IllegalStateException("Locker " + id + " is already free");
