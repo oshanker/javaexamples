@@ -1,6 +1,5 @@
 package com.oshanker.examples;
 
-import java.util.HashMap;
 import java.util.LinkedHashMap;
 import java.util.Map;
 
@@ -81,12 +80,14 @@ https://docs.oracle.com/javase/8/docs/api/java/util/LinkedHashMap.html
 		cache.put(4, "D"); // Should evict 1 (least recently used)
 
 		System.out.println("After accessing 2 and adding 4: " + cache);
+		System.out.println("Evict 1");
 
 		cache.get(3); // Access 3
 		System.out.println("After accessing 3 : " + cache);
-		cache.put(5, "E"); // Should evict 1
+		cache.put(5, "E"); // Should evict 2
 
 		System.out.println("After accessing 3 and adding 5: " + cache);
+		System.out.println("Evict 2");
         printKeyOrder(cache);
 
 		// Final cache state should contain keys: 4, 3, 5
