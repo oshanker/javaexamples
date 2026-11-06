@@ -167,8 +167,9 @@ https://substack.com/home/post/p-147935421?utm_campaign=post&utm_medium=web
 	public static void main(String[] args) {
 		Cache<Integer, String> cache = new LRUCache<>(3);
 		LRUSimple.intKeys(cache);
+		cache = new LRUCache<>(20);
         try {
-        	LRUSimple.testSynchronization(cache, 16, 100_005);
+        	LRUSimple.testSynchronization(cache, 16, 100_007);
             System.out.println("Synchronization stress test passed");
         } catch (InterruptedException exception) {
             Thread.currentThread().interrupt();
