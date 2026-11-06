@@ -109,21 +109,6 @@ https://docs.oracle.com/javase/8/docs/api/java/util/LinkedHashMap.html
         System.out.println("CAB");
         System.out.println(order.toString());
     }
-    
-	public static void main(String[] args) {
-		Cache<Integer, String> cache = new LRUSimple<>(3);
-		intKeys(cache);
-		cache = new LRUSimple<>(10);
-		
-		//testAccessOrder();
-        try {
-            testSynchronization(cache, 16, 100_007);
-            System.out.println("Synchronization stress test passed");
-        } catch (InterruptedException exception) {
-            Thread.currentThread().interrupt();
-            throw new RuntimeException("Synchronization stress test interrupted", exception);
-        }
-    }
 
 
 	static void intKeys(Cache<Integer, String> cache) {
@@ -193,7 +178,7 @@ All workers leave start.await() and hit the cache concurrently         *
                 	ready.countDown(); // announces: “I’m ready”
                 	start.await();     // waits for the gate to open                    ready.countDown();
                 	for (int operation = 0; operation < operationsPerThread; operation++) {
-                		int key = (workerId * operationsPerThread + operation/3) % 250;
+                		int key = (workerId * operationsPerThread + operation/3) ;
                 		switch (operation % 3) {
                 		case 0 -> {
                 			cache.put(key, Integer.toString(operation));
@@ -202,6 +187,11 @@ All workers leave start.await() and hit the cache concurrently         *
                 		case 1 -> cache.get(key);
                 		//default -> {}
                 		default -> cache.remove(key);
+                		}
+                		int keyid = key;
+						if( keyid < 10) {
+                            System.out.println(key + " cache.size(): " + cache.size());
+               			
                 		}
                 	}
                 	
@@ -236,5 +226,20 @@ start.countDown(); // opens the gate for everyone
         }
         System.out.println("Key order: " + order.toString());
 	}
+    
+	public static void main(String[] args) {
+		Cache<Integer, String> cache = new LRUSimple<>(3);
+		intKeys(cache);
+		cache = new LRUSimple<>(10);
+		
+		//testAccessOrder();
+        try {
+            testSynchronization(cache, 16, 100_007);
+            System.out.println("Synchronization stress test passed");
+        } catch (InterruptedException exception) {
+            Thread.currentThread().interrupt();
+            throw new RuntimeException("Synchronization stress test interrupted", exception);
+        }
+    }
 
 }

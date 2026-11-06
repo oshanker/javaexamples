@@ -117,8 +117,13 @@ https://substack.com/home/post/p-147935421?utm_campaign=post&utm_medium=web
 
 	@Override
 	public synchronized  V remove(K key) {
-		// TODO Auto-generated method stub
-		return null;
+		if(!containsKey(key)) {
+			return null;
+		}
+		Node<K, V> nodeKey = cacheMap.remove(key);
+		V ret = nodeKey.value;
+		removeNode(nodeKey);
+		return ret;
 	}
 
 	@Override
@@ -167,7 +172,7 @@ https://substack.com/home/post/p-147935421?utm_campaign=post&utm_medium=web
 	public static void main(String[] args) {
 		Cache<Integer, String> cache = new LRUCache<>(3);
 		LRUSimple.intKeys(cache);
-		cache = new LRUCache<>(20);
+		cache = new LRUCache<>(10);
         try {
         	LRUSimple.testSynchronization(cache, 16, 100_007);
             System.out.println("Synchronization stress test passed");
