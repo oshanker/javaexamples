@@ -116,7 +116,8 @@ public class ConcurrentDemo extends LockerStationDemo {
 	    }
 
 	    ready.await();                         // all threads are parked at the gate
-	    go.countDown();                        // release them together
+	    go.countDown();
+	    // release them together
 	    for (Future<?> future : futures) {
 	        future.get(30, TimeUnit.SECONDS);  // surface any exception; fail on a hang or deadlock
 	    }
