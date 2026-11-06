@@ -38,14 +38,21 @@ https://substack.com/home/post/p-147935421?utm_campaign=post&utm_medium=web
         Node<K,V> prev;
         Node<K,V> next;
         
-        Node(K key, V value) {
+        @Override
+		public String toString() {
+			return "Node [key=" + key + ", value=" + value + "]";
+		}
+
+		Node(K key, V value) {
             this.key = key;
             this.value = value;
         }
     }
     
     private final int capacity;
-    private final Map<K, Node<K,V>> cacheMap;
+
+
+	private final Map<K, Node<K,V>> cacheMap;
     private final Node<K,V> head;
     private final Node<K,V> tail;
 
@@ -63,8 +70,12 @@ https://substack.com/home/post/p-147935421?utm_campaign=post&utm_medium=web
         this.tail.prev = this.head;
     }
 
+    public int getCapacity() {
+		return capacity;
+	}
+
     // Get the value of the key if it exists, otherwise return -1
-    public V get(K key) {
+    public synchronized V get(K key) {
         if (!cacheMap.containsKey(key)) {
             return null;
         }
@@ -76,7 +87,7 @@ https://substack.com/home/post/p-147935421?utm_campaign=post&utm_medium=web
     }
 
     // Update the value if key exists, or add a new key-value pair
-    public V put(K key, V value) {
+    public synchronized V put(K key, V value) {
         if (cacheMap.containsKey(key)) {
             Node<K,V> node = cacheMap.get(key);
             node.value = value; // Update value
@@ -98,6 +109,38 @@ https://substack.com/home/post/p-147935421?utm_campaign=post&utm_medium=web
         return value;
     }
 
+
+	@Override
+	public synchronized int size() {
+		return cacheMap.size();
+	}
+
+	@Override
+	public synchronized  V remove(K key) {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	@Override
+	public synchronized Set<K> keySet() {
+		// TODO Auto-generated method stub
+		Set<K> ret = new LinkedHashSet<>();
+    	Node<K,V> node = head.next;
+    	while (node.key != null) {
+    	    ret.add(node.key );
+    	    node = node.next;
+    	}
+		return ret;
+
+	}
+
+	@Override
+	public synchronized boolean containsKey(K key) {
+		// TODO Auto-generated method stub
+		return cacheMap.containsKey(key);
+	}
+
+ 
     // --- Helper methods for Doubly Linked List Operations ---
 
     // Remove a node from its current position in the list
@@ -120,30 +163,17 @@ https://substack.com/home/post/p-147935421?utm_campaign=post&utm_medium=web
         removeNode(node);
         addNodeToHead(node);
     }
-
-	@Override
-	public Set<K> keySet() {
-		// TODO Auto-generated method stub
-		Set<K> ret = new LinkedHashSet<>();
-    	Node<K,V> node = head.next;
-    	while (node.key != null) {
-    	    ret.add(node.key );
-    	    node = node.next;
-    	}
-		return ret;
-
-	}
-
-	@Override
-	public boolean containsKey(K key) {
-		// TODO Auto-generated method stub
-		return cacheMap.containsKey(key);
-	}
-
-    
+   
 	public static void main(String[] args) {
 		Cache<Integer, String> cache = new LRUCache<>(3);
 		LRUSimple.intKeys(cache);
+        try {
+        	LRUSimple.testSynchronization(cache, 16, 100_005);
+            System.out.println("Synchronization stress test passed");
+        } catch (InterruptedException exception) {
+            Thread.currentThread().interrupt();
+            throw new RuntimeException("Synchronization stress test interrupted", exception);
+        }
 		
 	}
 }

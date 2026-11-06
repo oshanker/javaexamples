@@ -12,4 +12,10 @@ public interface Cache<K, V> {
 
 	boolean containsKey(K key);
 
+	int size();
+
+	V remove(K key);
+	
+	int getCapacity();
+
 }
