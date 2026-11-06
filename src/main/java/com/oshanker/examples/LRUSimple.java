@@ -1,9 +1,10 @@
 package com.oshanker.examples;
 
+import java.util.HashMap;
 import java.util.LinkedHashMap;
 import java.util.Map;
 
-public class LRUSimple<K,V> extends LinkedHashMap<K, V>
+public class LRUSimple<K,V> extends LinkedHashMap<K, V> implements Cache<K,V>
 {
 
 	/**
@@ -23,6 +24,9 @@ https://docs.oracle.com/javase/8/docs/api/java/util/LinkedHashMap.html
 
 
 	public LRUSimple(int initialCapacity) {
+        // the last param is the ordering mode. 
+    	// So, by passing in true, we turned on access-order, 
+    	// whereas the default was insertion-order.
         super(initialCapacity, 0.75f, true);
 	    this.capacity = initialCapacity;
 	}
@@ -34,8 +38,7 @@ https://docs.oracle.com/javase/8/docs/api/java/util/LinkedHashMap.html
     }
 
     public static void testAccessOrder() {
-        // the last param is the ordering mode. So, by passing in true, we turned on access-order, whereas the default was insertion-order.
-        Map<String, String> cache = new LRUSimple<>(3);
+        Cache<String, String> cache = new LRUSimple<>(3);
         cache.put("A", "Apple");
         cache.put("B", "Banana");
         cache.put("C", "Cherry");
@@ -60,13 +63,13 @@ https://docs.oracle.com/javase/8/docs/api/java/util/LinkedHashMap.html
     }
     
 	public static void main(String[] args) {
-		intKeys();
+		Cache<Integer, String> cache = new LRUSimple<>(3);
+		intKeys(cache);
 		//testAccessOrder();
 	}
 
 
-	private static void intKeys() {
-		Map<Integer, String> cache = new LRUSimple<>(3);
+	static void intKeys(Cache<Integer, String> cache) {
 
 		cache.put(1, "A");
 		cache.put(2, "B");
@@ -95,9 +98,9 @@ https://docs.oracle.com/javase/8/docs/api/java/util/LinkedHashMap.html
 	}
 
 
-	private static void printKeyOrder(Map<Integer, String> cache) {
+	private static <K, V> void printKeyOrder(Cache<K, V> cache) {
 		StringBuilder order = new StringBuilder();
-        for (Integer key : cache.keySet()) {
+        for (K key : cache.keySet()) {
             order.append(key);
         }
         System.out.println("Key order: " + order.toString());
