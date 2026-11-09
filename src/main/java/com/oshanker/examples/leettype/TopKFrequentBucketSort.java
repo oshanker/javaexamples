@@ -27,15 +27,15 @@ public class TopKFrequentBucketSort {
 
         // Step 3: Iterate backwards from highest frequency bucket to lowest
         // Important: K cannot exceed distinct elements
-        k = Math.min(k, freqMap.size());
-        int[] result = new int[k];
+        int retArraySize = Math.min(k, freqMap.size());
+        int[] result = new int[retArraySize];
         int index = 0;
         
-        for (int i = buckets.length - 1; i >= 0 && index < k; i--) {
+        for (int i = buckets.length - 1; i >= 0 && index < retArraySize; i--) {
             if (buckets[i] != null) {
                 for (int num : buckets[i]) {
                     result[index++] = num;
-                    if (index == k) {
+                    if (index == retArraySize) {
                         return result;
                     }
                 }
