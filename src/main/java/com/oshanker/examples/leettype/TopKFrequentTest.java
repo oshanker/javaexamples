@@ -1,6 +1,6 @@
 package com.oshanker.examples.leettype;
-import static com.oshanker.examples.leettype.TopKFrequentMinHeap.topKFrequent;
-//import static com.oshanker.examples.leettype.TopKFrequentBucketSort.topKFrequent;
+//import static com.oshanker.examples.leettype.TopKFrequentMinHeap.topKFrequent;
+import static com.oshanker.examples.leettype.TopKFrequentBucketSort.topKFrequent;
 
 import java.util.Arrays;
 public class TopKFrequentTest {

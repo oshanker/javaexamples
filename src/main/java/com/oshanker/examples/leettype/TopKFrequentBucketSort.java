@@ -4,6 +4,9 @@ import java.util.*;
 
 public class TopKFrequentBucketSort {
     public static int[] topKFrequent(int[] nums, int k) {
+        if (nums == null || nums.length == 0 || k <= 0) {
+            return new int[0];
+        }
         // Step 1: Build the frequency map
         Map<Integer, Integer> freqMap = new HashMap<>();
         for (int num : nums) {
@@ -23,6 +26,8 @@ public class TopKFrequentBucketSort {
         }
 
         // Step 3: Iterate backwards from highest frequency bucket to lowest
+        // Important: K cannot exceed distinct elements
+        k = Math.min(k, freqMap.size());
         int[] result = new int[k];
         int index = 0;
         
