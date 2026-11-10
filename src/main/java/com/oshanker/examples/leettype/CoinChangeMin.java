@@ -4,6 +4,9 @@ import java.util.Arrays;
 
 public class CoinChangeMin {
     public static int coinChange(int[] coins, int amount) {
+        // Null protection check
+        if (coins == null || amount < 0) return -1;
+        if (amount == 0) return 0;
         // dp[i] will store the minimum coins needed for amount i
         int[] dp = new int[amount + 1];
         
