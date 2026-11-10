@@ -5,6 +5,16 @@ public class CoinChangeWays {
         // dp[i] will store the number of ways to make change for amount i
         int[] dp = new int[amount + 1];
         
+        // Base case: If target is 0, there is exactly 1 way (using no coins)
+        if (amount == 0) {
+            return 1;
+        }
+        
+        // Edge case: If no coins are available but a target is required
+        if (coins == null || coins.length == 0) {
+            return 0;
+        }
+        
         // Base case: There is 1 way to make an amount of 0 (using no coins)
         dp[0] = 1;
         
