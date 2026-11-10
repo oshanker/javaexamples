@@ -1,7 +1,8 @@
 package com.oshanker.examples.leettype;
 
 import java.util.Arrays;
-import static com.oshanker.examples.leettype.CoinChangeMin.coinChange;
+//import static com.oshanker.examples.leettype.CoinChangeMin.coinChange;
+import static com.oshanker.examples.leettype.CoinChangeMinTopDown.coinChange;
 
 public class CoinChangeTestRunner {
 	/*
@@ -122,12 +123,17 @@ Core Strategy	Recomputes identical problems repeatedly.	Computes once, stores it
     private static boolean assertTestCase(CoinChangeTestRunner tester, 
     		int[] coins, int amount, int expected, String testName) {
         try {
+            long startTime = System.nanoTime();
             int actual = coinChange(coins, amount);
-            if (actual == expected) {
-                System.out.printf("[PASS] %s%n", testName);
+            long endTime = System.nanoTime();
+
+            double durationMs = (endTime - startTime) / 1_000_000.0;
+           if (actual == expected) {
+                System.out.printf("[PASS] %s(%.3f ms)%n", testName, durationMs);
                 return true;
             } else {
-                System.out.printf("[FAIL] %s | Input: coins=%s, amount=%d | Expected: %d, Got: %d%n", 
+                System.out.printf("[FAIL] %s | Input: coins=%s, amount=%d |"
+                		+ " Expected: %d, Got: %d%n", 
                                   testName, Arrays.toString(coins), amount, expected, actual);
                 return false;
             }

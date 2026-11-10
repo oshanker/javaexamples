@@ -14,6 +14,9 @@ public class CoinChangeMin {
         // Fill the array with a value representing infinity (impossible state)
         // We use amount + 1 because the max possible coins needed would be 'amount' (all 1s)
         Arrays.fill(dps, amount + 1);
+        // Clone to avoid side effects mutating the original array passed by the caller
+        int[] sortedCoins = coins.clone();
+        Arrays.sort(sortedCoins);
         
         // Base case: 0 coins are needed to make an amount of 0
         dps[0] = 0;
@@ -21,12 +24,17 @@ public class CoinChangeMin {
         // Loop through all amounts from 1 to the target amount
         for (int i = 1; i <= amount; i++) {
             // Check each coin denomination
-            for (int coin : coins) {
+            for (int coin : sortedCoins) {
                 // If the coin is smaller than or equal to the current amount
                 if (coin > 0 && i - coin >= 0) {
                     dps[i] = Math.min(dps[i], dps[i - coin] + 1);
                 }
-            }
+                // If the current coin exceeds the target sub-problem,
+                // all remaining coins are guaranteed to be larger. Break early!
+                if (coin > i) {
+                    break; 
+                }
+             }
         }
         
         // If dp[amount] is still greater than amount, it means the total was unreachable
