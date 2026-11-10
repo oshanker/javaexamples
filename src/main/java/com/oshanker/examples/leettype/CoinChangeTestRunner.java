@@ -43,7 +43,8 @@ public class CoinChangeTestRunner {
         }
     }
 
-    private static boolean assertTestCase(CoinChangeTestRunner tester, int[] coins, int amount, int expected, String testName) {
+    private static boolean assertTestCase(CoinChangeTestRunner tester, 
+    		int[] coins, int amount, int expected, String testName) {
         try {
             int actual = coinChange(coins, amount);
             if (actual == expected) {
