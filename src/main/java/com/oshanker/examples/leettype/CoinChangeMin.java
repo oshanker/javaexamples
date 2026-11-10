@@ -3,19 +3,20 @@ package com.oshanker.examples.leettype;
 import java.util.Arrays;
 
 public class CoinChangeMin {
-    public static int coinChange(int[] coins, int amount) {
+    private static int[] dps;
+
+	public static int coinChange(int[] coins, int amount) {
         // Null protection check
         if (coins == null || amount < 0) return -1;
         if (amount == 0) return 0;
-        // dp[i] will store the minimum coins needed for amount i
-        int[] dp = new int[amount + 1];
+        dps = new int[amount + 1];
         
         // Fill the array with a value representing infinity (impossible state)
         // We use amount + 1 because the max possible coins needed would be 'amount' (all 1s)
-        Arrays.fill(dp, amount + 1);
+        Arrays.fill(dps, amount + 1);
         
         // Base case: 0 coins are needed to make an amount of 0
-        dp[0] = 0;
+        dps[0] = 0;
         
         // Loop through all amounts from 1 to the target amount
         for (int i = 1; i <= amount; i++) {
@@ -23,13 +24,13 @@ public class CoinChangeMin {
             for (int coin : coins) {
                 // If the coin is smaller than or equal to the current amount
                 if (i - coin >= 0) {
-                    dp[i] = Math.min(dp[i], dp[i - coin] + 1);
+                    dps[i] = Math.min(dps[i], dps[i - coin] + 1);
                 }
             }
         }
         
         // If dp[amount] is still greater than amount, it means the total was unreachable
-        return dp[amount] > amount ? -1 : dp[amount];
+        return dps[amount] > amount ? -1 : dps[amount];
     }
 
     public static void main(String[] args) {
