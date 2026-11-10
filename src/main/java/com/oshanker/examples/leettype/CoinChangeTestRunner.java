@@ -106,6 +106,11 @@ Core Strategy	Recomputes identical problems repeatedly.	Computes once, stores it
         if (assertTestCase(tester, new int[]{2, 3}, 100, 34,
         		"Time-Out Avoidance Test (C^A Anti-Hang)")) passed++; else failed++;
 
+        // --- 3. Iterative Hanging / Infinite Loop Prevention ---
+        // Without the `coin > 0` validation check, a 0 inside the array will spin forever.
+        if (assertTestCase(tester, new int[]{0, 1, 2}, 4, 2, "Zero Coin Infinite Loop Prevention")) passed++; else failed++;
+        if (assertTestCase(tester, new int[]{-5, 2, 3}, 5, 2, "Negative Coin Safety")) passed++; else failed++;
+
         System.out.println("\n--------------------------------------");
         System.out.println("Test Results: " + passed + " Passed, " + failed + " Failed.");
         

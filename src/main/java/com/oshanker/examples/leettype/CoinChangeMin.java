@@ -23,7 +23,7 @@ public class CoinChangeMin {
             // Check each coin denomination
             for (int coin : coins) {
                 // If the coin is smaller than or equal to the current amount
-                if (i - coin >= 0) {
+                if (coin > 0 && i - coin >= 0) {
                     dps[i] = Math.min(dps[i], dps[i - coin] + 1);
                 }
             }
