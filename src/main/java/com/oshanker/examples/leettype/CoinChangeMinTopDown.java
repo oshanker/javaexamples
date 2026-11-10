@@ -29,7 +29,7 @@ public class CoinChangeMinTopDown {
         for (int coin : coins) {
             // Check for coin > 0 to avoid infinite loops if an array includes 0, 
             // and skip if the coin value is larger than the remaining amount
-            if(breakout > 3000) {
+            if(breakout > 8000) {
             	System.out.printf(
             			"too deep %d, breaking coin %d rem %d %n", 
             			breakout, coin, rem);

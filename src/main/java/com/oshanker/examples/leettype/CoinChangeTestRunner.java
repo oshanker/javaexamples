@@ -137,6 +137,12 @@ Core Strategy	Recomputes identical problems repeatedly.	Computes once, stores it
                                   testName, Arrays.toString(coins), amount, expected, actual);
                 return false;
             }
+        } catch (StackOverflowError e) {
+            System.out.printf("[FAIL] %s | "
+            		+ "CRASHED: Stack Overflow at "
+            		+ "recursion depth of %d%n",
+            		testName, amount);
+            return false;
         } catch (Exception e) {
             System.out.printf("[FAIL] %s | Threw unexpected exception: %s%n", testName, e.getMessage());
             return false;
