@@ -1,5 +1,5 @@
 package com.oshanker.examples.graph.mst;
-import static com.oshanker.examples.graph.mst.MinimumSpanningTreeUnionFind.DisjointSet;
+
 public class DisjointSetTest {
 
     public static void main(String[] args) {
