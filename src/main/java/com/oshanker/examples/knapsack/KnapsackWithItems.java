@@ -6,7 +6,10 @@ import java.util.List;
 
 public class KnapsackWithItems {
 
-    public static void knapsack(int capacity, int[] weights, int[] values) {
+    public static int knapsack(int capacity, int[] weights, int[] values) {
+        if (capacity <= 0 || weights == null || values == null || weights.length == 0) {
+            return 0;
+        }
         int n = weights.length;
         
         // dp[i][w] stores the maximum value achievable using the first 'i' items 
@@ -60,6 +63,7 @@ public class KnapsackWithItems {
         for (int index : selectedIndices) {
             System.out.println("- Item " + index + " (Weight: " + weights[index] + ", Value: " + values[index] + ")");
         }
+        return maxValue;
     }
 
     public static void main(String[] args) {

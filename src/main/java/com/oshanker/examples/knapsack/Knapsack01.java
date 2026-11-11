@@ -3,6 +3,9 @@ package com.oshanker.examples.knapsack;
 public class Knapsack01 {
 
     public static int knapsack(int capacity, int[] weights, int[] values) {
+        if (capacity <= 0 || weights == null || values == null || weights.length == 0) {
+            return 0;
+        }
         int n = weights.length;
 
         // dp[w] stores the maximum value achievable with a knapsack capacity of 'w'.
