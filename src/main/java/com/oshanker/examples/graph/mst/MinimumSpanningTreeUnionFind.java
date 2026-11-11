@@ -11,6 +11,8 @@ or
 compare it with priority-queue implementations in the 
 USACO Guide on Minimum Spanning Trees.
 https://usaco.guide/gold/mst?lang=java 
+
+https://www.geeksforgeeks.org/dsa/difference-between-prims-and-kruskals-algorithm-for-mst/
 	 */
 
 	// Class to represent a weighted, undirected edge in the graph
@@ -32,6 +34,8 @@ https://usaco.guide/gold/mst?lang=java
 		}
 	}
 
+	static final boolean DEBUG = true;
+	
 	// Method to construct and print the Minimum Spanning Tree
 	public static List<Edge>  findMST(int vertices, List<Edge> edges) {
 		// Step 1: Sort all edges from lowest to highest weight
@@ -48,6 +52,9 @@ https://usaco.guide/gold/mst?lang=java
 			if (rootSource != rootDest) {
 				mst.add(edge);
 				disjointSet.union(rootSource, rootDest);
+			} else if (DEBUG ){
+				System.out.printf("cycle for edge %d -- %d root %d %n" , edge.source ,  edge.destination,
+						rootSource);
 			}
 
 			// Stop early once we have (V - 1) edges in the MST
@@ -63,9 +70,9 @@ https://usaco.guide/gold/mst?lang=java
 		List<Edge> edges = new ArrayList<>();
 
 		// Add edges: (source, destination, weight)
-		edges.add(new Edge(0, 1, 10));
+		edges.add(new Edge(1, 0, 10));
 		edges.add(new Edge(0, 2, 6));
-		edges.add(new Edge(0, 3, 5));
+		edges.add(new Edge(3, 0, 5));
 		edges.add(new Edge(1, 3, 15));
 		edges.add(new Edge(2, 3, 4));
 
