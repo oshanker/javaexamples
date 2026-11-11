@@ -24,13 +24,12 @@ we can use a Sliding Window / Circular Array
 optimized down to a fixed size equal to the 
 maximum coin value + 1.
 	 */
-    private static int[] dps;
 
 	public static int coinChange(int[] coins, int amount) {
         // Null protection check
         if (coins == null || amount < 0) return -1;
         if (amount == 0) return 0;
-        dps = new int[amount + 1];
+        int[] dps = new int[amount + 1];
         
         // Fill the array with a value representing infinity (impossible state)
         // We use amount + 1 because the max possible coins needed would be 'amount' (all 1s)
