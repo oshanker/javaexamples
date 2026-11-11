@@ -3,6 +3,27 @@ package com.oshanker.examples.leettype;
 import java.util.Arrays;
 
 public class CoinChangeMin {
+	/*
+	To optimize the memory usage of the Bottom-Up DP approach 
+	down to a minimal footprint, we look at the array lookups:
+	 to compute dp[i], 
+	we only need to look backward at dp[i - coin].
+Unlike the 0/1 Knapsack problem where we can drop a matrix 
+dimension to achieve exactly O(capacity) space, 
+the Coin Change problem (an unbounded knapsack variant) 
+already operates on a single-dimensional array of 
+size amount + 1.
+However, we can dramatically optimize the memory 
+if the maximum coin denomination is small compared
+ to a massive target amount. For instance, 
+ if your highest coin value is 5, you never need to
+  look back further than 5 steps!
+Instead of allocating an array of size 1,000,000 
+for a million-dollar target, 
+we can use a Sliding Window / Circular Array 
+optimized down to a fixed size equal to the 
+maximum coin value + 1.
+	 */
     private static int[] dps;
 
 	public static int coinChange(int[] coins, int amount) {
