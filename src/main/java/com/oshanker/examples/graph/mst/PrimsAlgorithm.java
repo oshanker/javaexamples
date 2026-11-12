@@ -2,6 +2,8 @@ package com.oshanker.examples.graph.mst;
 
 import java.util.*;
 
+import com.oshanker.examples.graph.mst.MinimumSpanningTreeUnionFind.Edge;
+
 public class PrimsAlgorithm {
 	/*
 undirected, weighted graph
@@ -62,15 +64,13 @@ https://www.w3schools.com/dsa/dsa_algo_mst_prim.php
         }
     }
 
-    public static void findMST(int vertices, List<List<Edge>> adj) {
+    public static List<com.oshanker.examples.graph.mst.MinimumSpanningTreeUnionFind.Edge> findMST(int vertices, List<List<Edge>> adj) {
         // Tracks which vertices have already been finalized and added to the MST.
         // Using this array prevents cycles and ensures we don't process a node twice.
         boolean[] visited = new boolean[vertices];
         
         PriorityQueue<Node> pq = new PriorityQueue<>();
-        List<String> mstEdges = new ArrayList<>();
-        int totalWeight = 0;
-
+        List<MinimumSpanningTreeUnionFind.Edge>  mstEdges = new ArrayList<>();
         // Start from vertex 0 with no parent (-1) and 0 weight
         pq.add(new Node(0, -1, 0));
 
@@ -88,11 +88,11 @@ https://www.w3schools.com/dsa/dsa_algo_mst_prim.php
             // Permanently include vertex 'u' in the MST now that we've found
             // the minimum-weight edge connecting it to our growing tree.
             visited[u] = true;
-            totalWeight += current.weight;
-
             // Record the edge (skip the starting node which has parent -1)
             if (current.parent != -1) {
-                mstEdges.add(current.parent + " - " + u + " (weight: " + current.weight + ")");
+            	MinimumSpanningTreeUnionFind.Edge mstEdge = 
+            			new MinimumSpanningTreeUnionFind.Edge(current.parent, u, current.weight);
+                mstEdges.add(mstEdge );
             }
 
             // Explore all neighbors of 'u' and add edges leading to unvisited vertices.
@@ -105,11 +105,7 @@ https://www.w3schools.com/dsa/dsa_algo_mst_prim.php
             }
         }
 
-        System.out.println("Edges in the Minimum Spanning Tree:");
-        for (String edge : mstEdges) {
-            System.out.println(edge);
-        }
-        System.out.println("Total MST Weight: " + totalWeight);
+        return mstEdges;
     }
 
     // Helper method to add an undirected edge
@@ -133,6 +129,7 @@ https://www.w3schools.com/dsa/dsa_algo_mst_prim.php
         addEdge(adj, 2, 3, 4);
         addEdge(adj, 1, 2, 11);
 
-        findMST(vertices, adj);
+        List<MinimumSpanningTreeUnionFind.Edge>  mstEdges = findMST(vertices, adj);
+        MinimumSpanningTreeUnionFind.printMST(mstEdges);
     }
 }

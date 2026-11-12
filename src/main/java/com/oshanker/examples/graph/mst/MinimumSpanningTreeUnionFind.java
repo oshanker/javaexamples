@@ -80,6 +80,11 @@ https://www.geeksforgeeks.org/dsa/difference-between-prims-and-kruskals-algorith
 		List<Edge> mst = findMST(vertices, edges);
 
 		// Print the resulting Minimum Spanning Tree
+		printMST(mst);
+
+	}
+
+	static void printMST(List<MinimumSpanningTreeUnionFind.Edge> mst) {
 		int totalWeight = 0;
 		System.out.println("Edges in the Minimum Spanning Tree:");
 		for (Edge edge : mst) {
@@ -87,6 +92,5 @@ https://www.geeksforgeeks.org/dsa/difference-between-prims-and-kruskals-algorith
 			totalWeight += edge.weight;
 		}
 		System.out.println("Total MST Weight: " + totalWeight);
-
 	}
 }
