@@ -15,7 +15,6 @@ import java.util.concurrent.ConcurrentHashMap;
 import java.util.concurrent.ConcurrentSkipListSet;
 
 public class TaskScheduler {
-	Clock clock;
 	static class Task {
 		String id;
 		Instant runAt;
@@ -48,6 +47,13 @@ public class TaskScheduler {
 		}
 	}
 	
+	Clock clock;
+	
+	Map<String, Task> tasksById = new ConcurrentHashMap<>(
+			);
+	Set<Task> tasks = new ConcurrentSkipListSet<>(
+			Comparator.comparing(Task::getRunAt));
+
 	public void removeTask(String id) {
 		Task task = tasksById.get(id);
 		System.out.println("Removing " + task);
@@ -60,10 +66,10 @@ public class TaskScheduler {
 		tasksById.put(id, task);
 	}
 	
-	public void execute (Clock now) {
+	public void execute () {
 		List<Task> ready = new LinkedList<>();
 		for (Task task : tasks) {
-			if(task.getRunAt().isAfter(now.instant())) {
+			if(task.getRunAt().isAfter(clock.instant())) {
 				
 				System.out.println("breaking at " + task);
 				break;
@@ -81,11 +87,6 @@ public class TaskScheduler {
 		}
 		
 	}
-	
-	Map<String, Task> tasksById = new ConcurrentHashMap<>(
-			);
-	Set<Task> tasks = new ConcurrentSkipListSet<>(
-			Comparator.comparing(Task::getRunAt));
 
 	public TaskScheduler(Clock clock) {
 		super();
@@ -112,9 +113,10 @@ public class TaskScheduler {
 		}
 		taskScheduler.removeTask("20");
 		
-        Clock futureClock = Clock.offset(clock, 
+        taskScheduler.clock = Clock.offset(clock, 
         		Duration.ofMinutes(30));
-        taskScheduler.execute(futureClock);
+        
+        taskScheduler.execute();
 		System.out.println("tasks " +taskScheduler. tasks);
 	}
 
