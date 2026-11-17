@@ -11,6 +11,8 @@ import java.util.List;
 import java.util.Map;
 import java.util.Set;
 import java.util.TreeSet;
+import java.util.concurrent.ConcurrentHashMap;
+import java.util.concurrent.ConcurrentSkipListSet;
 
 public class TaskScheduler {
 	Clock clock;
@@ -80,9 +82,9 @@ public class TaskScheduler {
 		
 	}
 	
-	Map<String, Task> tasksById = new HashMap<>(
+	Map<String, Task> tasksById = new ConcurrentHashMap<>(
 			);
-	Set<Task> tasks = new TreeSet<>(
+	Set<Task> tasks = new ConcurrentSkipListSet<>(
 			Comparator.comparing(Task::getRunAt));
 
 	public TaskScheduler(Clock clock) {
