@@ -3,12 +3,8 @@ package com.oshanker.examples.rail;
 import java.lang.invoke.MethodHandles;
 import java.util.*;
 
-import com.oshanker.examples.rail.TrainBuilder.Locomotive;
-import com.oshanker.examples.rail.TrainOptimizer.Train;
 
 import static com.oshanker.examples.rail.TrainBuilder.Locomotive;
-import static com.oshanker.examples.rail.TrainOptimizer.MAX_TRAIN_LENGTH;
-import static com.oshanker.examples.rail.TrainOptimizer.MIN_TRAIN_LENGTH;
 
 public class TrainOptimizer {
 
@@ -29,6 +25,8 @@ public class TrainOptimizer {
         }
     }
 
+    /*
+    */
     static class Train {
         String name;
         List<Locomotive> locomotives = new ArrayList<>();
@@ -83,6 +81,8 @@ public class TrainOptimizer {
                     isValidLength(), getCurrentCargoWeight(), getTotalPullCapacity());
         }
     }
+    
+    
 
     static double score(List<Car> unallocatedCars,
     		List<Train>  trains) {
