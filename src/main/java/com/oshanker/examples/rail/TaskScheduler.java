@@ -5,8 +5,10 @@ import java.time.Duration;
 import java.time.Instant;
 import java.time.ZoneOffset;
 import java.util.Comparator;
+import java.util.HashMap;
 import java.util.LinkedList;
 import java.util.List;
+import java.util.Map;
 import java.util.Set;
 import java.util.TreeSet;
 
@@ -44,9 +46,16 @@ public class TaskScheduler {
 		}
 	}
 	
+	public void removeTask(String id) {
+		Task task = tasksById.get(id);
+		System.out.println("Removing " + task);
+		tasks.remove(task);
+	}
+	
 	public void scheduleTask(String id, Instant executionTime) {
 		Task task = new Task(id, executionTime);
 		tasks.add(task);
+		tasksById.put(id, task);
 	}
 	
 	public void execute (Clock now) {
@@ -71,6 +80,8 @@ public class TaskScheduler {
 		
 	}
 	
+	Map<String, Task> tasksById = new HashMap<>(
+			);
 	Set<Task> tasks = new TreeSet<>(
 			Comparator.comparing(Task::getRunAt));
 
@@ -97,6 +108,7 @@ public class TaskScheduler {
 			System.out.println(task);
 			
 		}
+		taskScheduler.removeTask("20");
 		
         Clock futureClock = Clock.offset(clock, 
         		Duration.ofMinutes(30));
